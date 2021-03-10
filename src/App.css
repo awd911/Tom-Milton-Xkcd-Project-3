@@ -42,10 +42,13 @@
 body{
   background-color: lightgoldenrodyellow;
   font-family: 'Roboto', sans-serif;
+  text-align: center;
 }
 
 .wrapper{
   max-width:90%;
+  align-items: center;
+  text-align: center;
 }
 
 h1{
@@ -55,6 +58,14 @@ h1{
 
 main{
   margin: 5px 0px 25px;  
+}
+
+textarea{
+  margin: 0px 0px 35px;
+  background-color: lightgrey;
+  width: 10%;
+  height: auto;
+  text-align: center;
 }
 
 .fa:before {
@@ -74,6 +85,9 @@ footer{
   margin-top:30px;
   padding:5px;
   background-color: lightgrey;
+  text-align: center;
+  align-items: center;
+
 }
 /* Media queries */
 @media(max-width:400px){

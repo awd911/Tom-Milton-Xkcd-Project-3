@@ -1,5 +1,3 @@
-
-
 import './App.css';
 import { useState } from 'react';
 
@@ -11,15 +9,9 @@ const comicApp = {};
 // storing the API key and base URL
 comicApp.Url = 'https://xkcd.com/info.0.json';
 
-
-//HELP QUE NUM 2
-//targeting the text area using query selector returns NULL after the inital load
-// Tried changing it from a textArea to a div
-
 //First call to the API and sets the default comic up for vieweing
   // CALLS: displayDefaultComic(data) To display the API 
   // RETURNS: N/A
-
 comicApp.getDefault = () => {
   //Proxied the API to avoid a CORS error from crashing the site (Thanks Susan!)
   const proxiedURL = 'https://xkcd.com/info.0.json';
@@ -39,22 +31,6 @@ comicApp.getDefault = () => {
 
       comicApp.displayDefaultComic(data);
     })
-
-
-  //     // VVV Currently doesnt work, tells me that currNum.innerText is null after emptying the main elementnst currNum = document.querySelector("textarea");
-  //     //Tried to switch the type of element to a div instead of a textarea
-
-  //     const currNum = document.querySelector("textarea");
-  //     if (currNum) {
-  //       console.log("Works!");
-  //       currNum.innerText = comicNum;
-  //       mainEl.appendChild(currNum);
-  //     }
-  //     else {
-  //       console.log("Nope!");
-  //     }
-
-
 }
 
 comicApp.changeComic = () => {
@@ -87,7 +63,7 @@ comicApp.displayDefaultComic = (data) => {
   const comicTitle = data.title;
   const currComic = data.img;
   const comicAlt = data.alt;
-  const comicNum = data.num;
+  const comicNum = comicApp.currentNumber;
 
   //Title changer
   let currTitle = document.querySelector('h2');
@@ -102,6 +78,11 @@ comicApp.displayDefaultComic = (data) => {
   const currImg = document.createElement('img');
   currImg.src = currComic;
   currImg.alt = comicAlt;
+
+  const numEl = document.querySelector('textarea');
+  numEl.innerText = comicNum;
+
+
 
   mainEl.appendChild(currImg);
 
@@ -130,7 +111,7 @@ const handleRandom = function () {
   comicApp.changeComic();
 }
 
-// initialize the comicApp
+// initialize the comicApp and key variables
 comicApp.init = () => {
   //current number initialized to be replaced with the first API call (Maybe not needed)
   comicApp.currentNumber = 0;
@@ -156,15 +137,14 @@ function App() {
         <div className="comicPanel">
           <h2></h2>
           <main></main>
+          <textarea disabled label="Current comic number is..."></textarea>
         </div>
-
-
 
         {/* Area for the comic number to appear */}
         <section>
-          <i className="fa fa-arrow-left" onClick={handlePrevious}></i>
-          <i className="fa fa-question" onClick={handleRandom}></i>
-          <i className="fa fa-arrow-right" onClick={handleNext}></i>
+          <i className="fa fa-arrow-left" label="Previous Arrow" onClick={handlePrevious}></i>
+          <i className="fa fa-question" label="Random" onClick={handleRandom}></i>
+          <i className="fa fa-arrow-right" label="Next Arrow" onClick={handleNext}></i>
         </section>
       </div>
         <footer>
