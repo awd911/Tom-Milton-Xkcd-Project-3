@@ -37,7 +37,48 @@
   }
 }
 
+/* Custom Styling */
+
+body{
+  background-color: lightgoldenrodyellow;
+  font-family: 'Roboto', sans-serif;
+}
+
+.wrapper{
+  max-width:90%;
+}
+
+h1{
+  font-family: 'DotGothic16', sans-serif;
+  font-size:60px;
+}
+
+main{
+  margin: 5px 0px 25px;  
+}
+
 .fa:before {
   font-size:50px;
   padding : 20px;
+  background-color: lightgrey;
+  border-radius: 50%;
+  margin:10px;
+}
+
+
+.fa-question:before {
+  background-color: goldenrod;
+}
+
+footer{
+  margin-top:30px;
+  padding:5px;
+  background-color: lightgrey;
+}
+/* Media queries */
+@media(max-width:400px){
+  h1{
+    font-size: 40px;
+  }
+
 }
