@@ -68,7 +68,7 @@ function App() {
       {/* Importing Icons from Font-Awesome */}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
-      <h1>Comic Viewer</h1>
+      <h1>XKCD Comic Viewer</h1>
       {
         //Maps thru the API Comic state and passes it to the DisplayComic component
         comic.map((info) => {
