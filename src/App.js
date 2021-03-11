@@ -1,159 +1,113 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
-import { useState } from 'react';
 
-//import ChangeComic from './ChangeComic';
-
-// creating namespace
-const comicApp = {};
-
-// storing the API key and base URL
-comicApp.Url = 'https://xkcd.com/info.0.json';
-
-//First call to the API and sets the default comic up for vieweing
-  // CALLS: displayDefaultComic(data) To display the API 
-  // RETURNS: N/A
-comicApp.getDefault = () => {
-  //Proxied the API to avoid a CORS error from crashing the site (Thanks Susan!)
-  const proxiedURL = 'https://xkcd.com/info.0.json';
-
-  const url = new URL('http://proxy.hackeryou.com');
-  url.search = new URLSearchParams({
-    reqUrl: proxiedURL,
-  });
-
-  fetch(url)
-    .then((response) => {
-      return response.json();
-    }).then((data) => {
-      console.log(data.num);
-      comicApp.currentNumber = data.num;
-      comicApp.newestComic = data.num;
-
-      comicApp.displayDefaultComic(data);
-    })
-}
-
-comicApp.changeComic = () => {
-  //fetch the API at the new location of index
-  console.log(comicApp.currentNumber);
-  const proxiedURL = `https://xkcd.com/${comicApp.currentNumber}/info.0.json`;
-
-  const url = new URL('http://proxy.hackeryou.com');
-  url.search = new URLSearchParams({
-    reqUrl: proxiedURL,
-  });
-
-  fetch(url)
-    .then((response) => {
-      return response.json();
-    }).then((data) => {
-      console.log(data.num);
-      comicApp.currentNumber = data.num;
-
-      //call to display the new comic
-      comicApp.displayDefaultComic(data);
-    })
-}
-
-
-
-//Takes the data from the API Call to populate the empty HTML elements in App
-comicApp.displayDefaultComic = (data) => {
-
-  const comicTitle = data.title;
-  const currComic = data.img;
-  const comicAlt = data.alt;
-  const comicNum = comicApp.currentNumber;
-
-  //Title changer
-  let currTitle = document.querySelector('h2');
-  currTitle.innerText = comicTitle;
-
-  //Quick way to empty the main contaier to "reset" the page
-  const mainEmpty = document.querySelector('main');
-  mainEmpty.innerHTML = "";
-
-  const mainEl = document.querySelector('main');
-  //Image element (Currently duplicating unwanted times)
-  const currImg = document.createElement('img');
-  currImg.src = currComic;
-  currImg.alt = comicAlt;
-
-  const numEl = document.querySelector('textarea');
-  numEl.innerText = comicNum;
-
-
-
-  mainEl.appendChild(currImg);
-
-}
-
-// EVENT HANDLERS
-//change the global variable up or down 1 depending on the button pushed 
-//The previous button handler 
-const handlePrevious = function () {
-  //change the currentNumber value to be one lower than the previous call
-  comicApp.currentNumber = comicApp.currentNumber - 1;
-  comicApp.changeComic();
-}
-
-//The next button handler 
-const handleNext = function () {
-  comicApp.currentNumber = comicApp.currentNumber + 1;
-  comicApp.changeComic();
-
-}
-//the random button handler
-//Uses a simple Math library call to get a random comic from the API
-const handleRandom = function () {
-  comicApp.currentNumber = Math.floor(Math.random() * comicApp.newestComic);
-  console.log("RANDO!!!! " + comicApp.newestComic)
-  comicApp.changeComic();
-}
-
-// initialize the comicApp and key variables
-comicApp.init = () => {
-  //current number initialized to be replaced with the first API call (Maybe not needed)
-  comicApp.currentNumber = 0;
-  comicApp.getDefault();
-}
-
+//Imports the components
+import ComicButton from './ComicButton.js'
+import DisplayComic from './DisplayComic.js'
 
 function App() {
+  //Initializes the States and their SetState functions that allows them to be modified
+  const [comic, setComic] = useState([]);
+  const [comicNumber, setComicNumber] = useState(Math.floor(Math.random() * 2445));
 
-  let [currentURL] = useState(comicApp.Url);
+  //The use Effect function that calls the API and sets up the initial values
+  useEffect(() => {
+    axios({
+      method: 'GET',
+      url: 'https://proxy.hackeryou.com',
+      responseType: 'json',
+      params: {
+        //The API needs a proxy to not throw a CORS error
+        //(Thanks Susan/Colin)
+        reqUrl: `https://xkcd.com/${comicNumber}/info.0.json`,
+        proxyHeaders: {
+          header_params: 'value',
+        },
+        xmlToJSON: false,
+      },
+    }).then((data) => {
+      setComic([data.data]);
+      //setComicNumber(data.num);
+    });
+    //The variables that will re-call the useEffect function if called
+  }, [comicNumber])
+
+  //Functions that take the current page and use them to modify the state
+  const handlePrev = (currentPage) => {
+    if (currentPage > 1) {
+      setComicNumber(currentPage - 1);
+    }
+    else {
+      alert("Page cannot be less than 1")
+    }
+  };
+
+  const handleNext = (currentPage) => {
+    setComicNumber(currentPage + 1);
+  };
+  const handleRandom = (currentPage) => {
+    const newNum = Math.floor(Math.random() * 2445)
+
+    if (newNum === currentPage) {
+      setComicNumber(500);
+    }
+    else {
+      setComicNumber(newNum);
+    }
+
+  };
+
 
   return (
     <div className="App">
+      {/* Links for Google Fonts */}
       <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet"></link>
       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"></link>
+
+      {/* Importing Icons from Font-Awesome */}
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
-      <div className="wrapper">
+      <h1>Comic Viewer</h1>
+      {
+        //Maps thru the API Comic state and passes it to the DisplayComic component
+        comic.map((info) => {
+          return (
+            <DisplayComic
+              title={info.title}
+              image={info.img}
+              altText={info.alt}
+            />
+          )
+        })
+      }
 
 
-        <h1>XKCD Comic Viewer</h1>
+      <textarea disabled defaultValue={comicNumber}></textarea>
+      <section>
 
-        <div className="comicPanel">
-          <h2></h2>
-          <main></main>
-          <textarea disabled label="Current comic number is..."></textarea>
-        </div>
+        {/* Calls the component and passes the crutial info to build the icon */}
+        <ComicButton
+          direction="previous"
+          index={comicNumber}
+          changeComicFunction={() => handlePrev(comicNumber)}
+        />
 
-        {/* Area for the comic number to appear */}
-        <section>
-          <i className="fa fa-arrow-left" label="Previous Arrow" onClick={handlePrevious}></i>
-          <i className="fa fa-question" label="Random" onClick={handleRandom}></i>
-          <i className="fa fa-arrow-right" label="Next Arrow" onClick={handleNext}></i>
-        </section>
-      </div>
-        <footer>
-          <a href="https://xkcd.com/license.html">Copyright Info </a>
-        </footer>
+        <i className="fa fa-question" label="Random" onClick={() => handleRandom(comic[0].num)}></i>
+
+        <ComicButton
+          direction="next"
+          index={comicNumber}
+          changeComicFunction={() => handleNext(comicNumber)}
+        />
+
+      </section>
+      <footer>
+        <a href="https://xkcd.com/license.html">Copyright Info </a>
+      </footer>
     </div>
   );
 }
-
-comicApp.init();
-
 export default App;
+// create a Button component to be reused for both prev/next
+// create a DisplayComic component to transfer the comic info into
