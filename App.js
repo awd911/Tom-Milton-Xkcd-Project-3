@@ -1,26 +1,19 @@
 
+import axios from 'axios';
 import './App.css';
 
 // creating namespace
 const comicApp = {};
 
 // storing the API key and base URL
-comicApp.baseUrl = 'https://xkcd.com/info.0.json';
+comicApp.baseUrl = 'http://localhost:8010/proxy/info.0.json';
 
 //import the useEffect Hook from the React library
 //import { useEffect, useState } from 'react';
 
-//HELP QUE NUMBER 1
-//CORS error on fetch
-  // 1. tried to add a proxy to get the right header info
-  // 2. tried a plugin on chrome (Which works but idk if thats okay)
-
-//HELP QUE NUM 2
-//targeting the text area using query selector returns NULL after the inital load
 comicApp.getDefault = () =>{
 
   const apiUrl = 'https://xkcd.com/info.0.json';
-
      axios({
          method:'GET',
          url: 'http://proxy.hackeryou.com',
@@ -36,22 +29,33 @@ comicApp.getDefault = () =>{
      .then((response) => {
         console.log(response.data);
         comicApp.displayDefaultComic(response.data);
-        comicApp.currentNumber = response.data.num;
      })
 
 
+//   fetch(apiUrl)
+//     .then((response) => {
+//       return response.json();
+//     }).then((data) => {
+//       console.log(data);
+//       comicApp.displayDefaultComic(data);
+//       comicApp.currentNumber = data.num;
+//     })
+}
+
 comicApp.changeComic = () => {
   //fetch the API at the new location of index
-  fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`)
-    .then((response) => {
-      return response.json();
-    }).then((data) => {
+  console.log("not yet...");
+//   fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`)
+  
+//     .then((response) => {
+//       return response.json();
+//     }).then((data) => {
 
 
-      console.log(data.num);
-      comicApp.displayDefaultComic(data);
-      comicApp.currentNumber = data.num;
-    })
+//       console.log(data.num);
+//       comicApp.displayDefaultComic(data);
+//       comicApp.currentNumber = data.num;
+//     })
 
 
 }
@@ -75,7 +79,7 @@ comicApp.displayDefaultComic = (data) => {
   mainEmpty.innerHTML ="";
   
   const mainEl = document.querySelector('main');
-  //Image element (Currently duplicating unwanted times)
+
   const currImg = document.createElement('img');
   currImg.src = currComic;
   currImg.alt = comicAlt;
