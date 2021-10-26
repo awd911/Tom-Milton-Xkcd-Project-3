@@ -12,6 +12,8 @@ comicApp.baseUrl = 'http://localhost:8010/proxy/info.0.json';
 
 comicApp.getDefault = () =>{
 
+  const axios = require('axios').default;
+  
   const apiUrl = 'https://xkcd.com/info.0.json';
      axios({
          method:'GET',
