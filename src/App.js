@@ -17,7 +17,7 @@ comicApp.getDefault = () =>{
   const apiUrl = 'https://xkcd.com/info.0.json';
      axios({
          method:'GET',
-         url: 'https://xkcd.com/info.0.json',
+         url: 'http://proxy.hackeryou.com',
          responseType:'json',
          params:{
              reqUrl:apiUrl,
@@ -41,22 +41,22 @@ comicApp.getDefault = () =>{
 //       comicApp.displayDefaultComic(data);
 //       comicApp.currentNumber = data.num;
 //     })
-// }
+}
 
 comicApp.changeComic = () => {
   //fetch the API at the new location of index
   console.log("not yet...");
-  fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`)
+//   fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`)
   
-    .then((response) => {
-      return response.json();
-    }).then((data) => {
+//     .then((response) => {
+//       return response.json();
+//     }).then((data) => {
 
 
-      console.log(data.num);
-      comicApp.displayDefaultComic(data);
-      comicApp.currentNumber = data.num;
-    })
+//       console.log(data.num);
+//       comicApp.displayDefaultComic(data);
+//       comicApp.currentNumber = data.num;
+//     })
 
 
 }
