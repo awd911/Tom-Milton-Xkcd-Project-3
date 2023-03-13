@@ -17,7 +17,7 @@ comicApp.getDefault = () =>{
   const apiUrl = 'https://xkcd.com/info.0.json';
      axios({
          method:'GET',
-         url: 'http://proxy.hackeryou.com',
+        //  url: 'http://proxy.hackeryou.com',
          responseType:'json',
          params:{
              reqUrl:apiUrl,
