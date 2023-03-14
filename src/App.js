@@ -69,7 +69,7 @@ comicApp.displayDefaultComic = (data) => {
   const comicTitle = data.title;
   const currComic = data.img;
   const comicAlt = data.alt;
-  const comicNum = data.num;
+  //const comicNum = data.num;
 
   
 
