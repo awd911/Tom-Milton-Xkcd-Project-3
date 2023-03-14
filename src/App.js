@@ -1,4 +1,4 @@
-//import axios from 'axios';
+import axios from 'axios';
 import './App.css';
 
 // creating namespace
@@ -19,7 +19,7 @@ comicApp.getDefault = () =>{
 
      axios({
          method:'GET',
-          url: url,
+        url: url,
          responseType:'json',
          params:{
              reqUrl:apiUrl,
@@ -35,7 +35,7 @@ comicApp.getDefault = () =>{
      })
 
 
-  fetch(apiUrl)
+  fetch(url)
     .then((response) => {
       response.json();
     }).then((data) => {
