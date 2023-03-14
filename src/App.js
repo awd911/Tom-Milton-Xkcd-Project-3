@@ -15,9 +15,11 @@ comicApp.getDefault = () =>{
   const axios = require('axios').default;
   
   const apiUrl = 'https://xkcd.com/info.0.json';
+  const url = "https://proxy.junocollege.com/https://xkcd.com/info.0.json";
+
      axios({
          method:'GET',
-          url: 'http://proxy.hackeryou.com',
+          url: url,
          responseType:'json',
          params:{
              reqUrl:apiUrl,
@@ -33,14 +35,14 @@ comicApp.getDefault = () =>{
      })
 
 
-//   fetch(apiUrl)
-//     .then((response) => {
-//       return response.json();
-//     }).then((data) => {
-//       console.log(data);
-//       comicApp.displayDefaultComic(data);
-//       comicApp.currentNumber = data.num;
-//     })
+  fetch(apiUrl)
+    .then((response) => {
+      response.json();
+    }).then((data) => {
+      console.log(data);
+      comicApp.displayDefaultComic(data);
+      comicApp.currentNumber = data.num;
+    })
 }
 
 comicApp.changeComic = () => {
