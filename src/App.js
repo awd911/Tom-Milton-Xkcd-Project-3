@@ -139,7 +139,7 @@ function App() {
   return (
     <div className="App">
       <h1>Comic Viewer</h1>
-      <h2></h2>
+      <h2>Current Comic</h2>
       <main></main>
 
       {/* Area for the comic number to appear */}
