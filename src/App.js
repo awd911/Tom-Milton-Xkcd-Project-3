@@ -87,7 +87,7 @@ comicApp.displayDefaultComic = (data) => {
   currImg.src = currComic;
   currImg.alt = comicAlt;
 
-  console.log("!!!!! THE CURRENT IMG SRC IS : ",currImg), " !!!!!!!!!!";
+  console.log("!!!!! THE CURRENT IMG SRC IS : ",currImg, " !!!!!!!!!!");
 
 
   // VVV Currently doesnt work, tells me that currNum.innerText is null after emptying the main elementnst currNum = document.querySelector("textarea");
