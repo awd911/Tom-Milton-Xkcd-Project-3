@@ -12,14 +12,14 @@ comicApp.baseUrl = 'http://localhost:8010/proxy/info.0.json';
 
 comicApp.getDefault = () =>{
 
-  const axios = require('axios').default;
+ // const axios = require('axios').default;
   
   const apiUrl = 'https://xkcd.com/info.0.json';
   const url = "https://proxy.junocollege.com/https://xkcd.com/info.0.json";
 
      axios({
          method:'GET',
-        url: url,
+          url: url,
          responseType:'json',
          params:{
              reqUrl:apiUrl,
@@ -35,7 +35,7 @@ comicApp.getDefault = () =>{
      })
 
 
-  fetch(url)
+  fetch(apiUrl)
     .then((response) => {
       response.json();
     }).then((data) => {
@@ -129,6 +129,7 @@ const handlePrevious = function () {
  
 }
 // initialize the comicApp
+
 comicApp.init = () => {
   //current number initialized to be replaced with the first API call (Maybe not needed)
   comicApp.currentNumber = 0;
@@ -139,7 +140,7 @@ function App() {
   return (
     <div className="App">
       <h1>Comic Viewer</h1>
-      <h2>Current Comic</h2>
+      <h2></h2>
       <main></main>
 
       {/* Area for the comic number to appear */}
