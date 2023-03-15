@@ -48,7 +48,9 @@ comicApp.getDefault = () =>{
 comicApp.changeComic = () => {
   //fetch the API at the new location of index
   //console.log("not yet...");
-  fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`)
+  fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`,{
+    mode: 'no-cors'
+  })
   
     .then((response) => {
       return response.json();
