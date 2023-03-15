@@ -47,18 +47,18 @@ comicApp.getDefault = () =>{
 
 comicApp.changeComic = () => {
   //fetch the API at the new location of index
-  console.log("not yet...");
-//   fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`)
+  //console.log("not yet...");
+  fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`)
   
-//     .then((response) => {
-//       return response.json();
-//     }).then((data) => {
+    .then((response) => {
+      return response.json();
+    }).then((data) => {
 
 
-//       console.log(data.num);
-//       comicApp.displayDefaultComic(data);
-//       comicApp.currentNumber = data.num;
-//     })
+      console.log(data.num);
+      comicApp.displayDefaultComic(data);
+      comicApp.currentNumber = data.num;
+    })
 
 
 }
@@ -69,7 +69,7 @@ comicApp.displayDefaultComic = (data) => {
   const comicTitle = data.title;
   const currComic = data.img;
   const comicAlt = data.alt;
-  //const comicNum = data.num;
+  const comicNum = data.num;
 
   
 
@@ -93,18 +93,18 @@ comicApp.displayDefaultComic = (data) => {
   // VVV Currently doesnt work, tells me that currNum.innerText is null after emptying the main elementnst currNum = document.querySelector("textarea");
     //Tried to switch the type of element to a div instead of a textarea
 
-  // const currNum = document.querySelector("textarea");
-  // if(currNum){
-  //   console.log("Works!");
-  // }
-  // else{
-  //   console.log("Nope!");
-  // }
+  const currNum = document.querySelector("textarea");
+  if(currNum){
+    console.log("Works!");
+  }
+  else{
+    console.log("Nope!");
+  }
 
-  // currNum.innerText = comicNum;
+  currNum.innerText = comicNum;
 
-  // console.log(currNum);
-  // mainEl.appendChild(currNum);
+  console.log(currNum);
+  mainEl.appendChild(currNum);
 
 
   mainEl.appendChild(currImg);
