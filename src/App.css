@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+textarea {
+width : 100px;
+height : 30px;
+margin:auto;
+resize: none;
+border: 2px dashed tan;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -30,36 +30,34 @@ comicApp.getDefault = () =>{
          }
      })
      .then((response) => {
-        console.log(response.data);
-        comicApp.displayDefaultComic(response.data);
+        console.log("!!!!! Axios Initial : ",response.data);
+        // comicApp.displayDefaultComic(response.data);
+        // comicApp.currentNumber = response.data.num;
      })
 
 
-  fetch(apiUrl)
+  fetch(url)
     .then((response) => {
-      response.json();
+     return response.json();
     }).then((data) => {
-      console.log(data);
       comicApp.displayDefaultComic(data);
       comicApp.currentNumber = data.num;
     })
-}
+ }
 
 comicApp.changeComic = () => {
   //fetch the API at the new location of index
   //console.log("not yet...");
-  fetch(`https://xkcd.com/${comicApp.currentNumber}/info.0.json`,{
-    mode: 'no-cors'
-  })
+  fetch(`https://proxy.junocollege.com/https://xkcd.com/${comicApp.comicNum}/info.0.json`)
   
     .then((response) => {
       return response.json();
     }).then((data) => {
 
-
-      console.log(data.num);
+      console.log("Current Num : ",comicApp.currNumber, " data.num: ",data.num);
       comicApp.displayDefaultComic(data);
-      comicApp.currentNumber = data.num;
+      
+      //currentNumber = data.num;
     })
 
 
@@ -72,6 +70,10 @@ comicApp.displayDefaultComic = (data) => {
   const currComic = data.img;
   const comicAlt = data.alt;
   const comicNum = data.num;
+  const currentNumber = data.num;
+
+  console.log("!! displayDefault Title",comicTitle," comicNum + currentNumber = ",comicNum, currentNumber);
+  //currentNumber = data.num;
 
   
 
@@ -89,24 +91,33 @@ comicApp.displayDefaultComic = (data) => {
   currImg.src = currComic;
   currImg.alt = comicAlt;
 
-  console.log("!!!!! THE CURRENT IMG SRC IS : ",currImg, " !!!!!!!!!!");
 
 
   // VVV Currently doesnt work, tells me that currNum.innerText is null after emptying the main elementnst currNum = document.querySelector("textarea");
     //Tried to switch the type of element to a div instead of a textarea
 
-  const currNum = document.querySelector("textarea");
-  if(currNum){
-    console.log("Works!");
+  let currTextArea = document.querySelector("textarea");
+  if(currTextArea){
+    currTextArea.innerText = comicNum;
+    mainEl.appendChild(currTextArea);
   }
   else{
-    console.log("Nope!");
+    let newTextArea = document.createElement("textarea");
+    newTextArea.id = "currentIssue";
+    let textAreaNumber = document.createTextNode(comicNum);
+    newTextArea.append(textAreaNumber);
+
+    
+    //currTextArea.innerHTML = ;
+    mainEl.appendChild(newTextArea)
+    document.getElementById("currentIssue").disabled = true;
+  
+    console.log("Nope! Text area does not exist!");
   }
 
-  currNum.innerText = comicNum;
 
-  console.log(currNum);
-  mainEl.appendChild(currNum);
+  console.log("CurrNum: ",currTextArea);
+
 
 
   mainEl.appendChild(currImg);
@@ -117,7 +128,9 @@ comicApp.displayDefaultComic = (data) => {
 //The next button handler 
 const handleNext = function () {
   //steps to run when event is "heard"
-  comicApp.currentNumber = comicApp.currentNumber + 1;
+  comicApp.comicNum = comicApp.currentNumber + 1;
+  comicApp.currentNumber++;
+  console.log("ComicApp Current number UP: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
   comicApp.changeComic();
 
 }
@@ -125,7 +138,11 @@ const handleNext = function () {
 const handlePrevious = function () {
   //steps to run when event is "heard"
   //change the currentNumber value to be one lower than the previous call
-  comicApp.currentNumber = comicApp.currentNumber -1;
+
+
+  comicApp.comicNum = comicApp.currentNumber -1;
+  comicApp.currentNumber--;
+  console.log("ComicApp Current number DOWN: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
   comicApp.changeComic();
 
  
@@ -134,7 +151,7 @@ const handlePrevious = function () {
 
 comicApp.init = () => {
   //current number initialized to be replaced with the first API call (Maybe not needed)
-  comicApp.currentNumber = 0;
+  //comicApp.currentNumber = 0;
   comicApp.getDefault();
 }
 
@@ -148,7 +165,7 @@ function App() {
       {/* Area for the comic number to appear */}
       <section>
         <button onClick={handlePrevious}>Previous</button>
-        <textarea></textarea>
+        <textarea disabled></textarea>
         <button onClick={handleNext} >Next</button>
       </section>
       <footer>
