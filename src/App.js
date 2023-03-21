@@ -1,6 +1,8 @@
 import axios from 'axios';
 import './App.css';
 
+let mostRecentComic = 2500;
+
 // creating namespace
 const comicApp = {};
 
@@ -30,7 +32,8 @@ comicApp.getDefault = () =>{
          }
      })
      .then((response) => {
-        console.log("!!!!! Axios Initial : ",response.data);
+      mostRecentComic = response.data.num;
+        console.log("!!!!! Axios Initial : ",response.data, "Last Comic ! ",mostRecentComic);
         // comicApp.displayDefaultComic(response.data);
         // comicApp.currentNumber = response.data.num;
      })
@@ -93,8 +96,7 @@ comicApp.displayDefaultComic = (data) => {
 
 
 
-  // VVV Currently doesnt work, tells me that currNum.innerText is null after emptying the main elementnst currNum = document.querySelector("textarea");
-    //Tried to switch the type of element to a div instead of a textarea
+  // Fills the text area with the current Comic Number, if there isnt a text area, creates one first
 
   let currTextArea = document.querySelector("textarea");
   if(currTextArea){
@@ -116,7 +118,15 @@ comicApp.displayDefaultComic = (data) => {
   }
 
 
-  console.log("CurrNum: ",currTextArea);
+  //console.log("CurrNum: ",comicApp.comicNum, " > ",mostRecentComic);
+
+  // if(comicApp.comicNum > mostRecentComic){
+  //   document.getElementById("NextButton").disabled = true;
+  //   
+  // }
+  // else{
+  //   document.getElementById("NextButton").disabled = false;
+  // }
 
 
 
@@ -129,17 +139,30 @@ comicApp.displayDefaultComic = (data) => {
 const handleNext = function () {
   //steps to run when event is "heard"
   comicApp.comicNum = comicApp.currentNumber + 1;
-  comicApp.currentNumber++;
-  console.log("ComicApp Current number UP: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
-  comicApp.changeComic();
+
+  if (comicApp.comicNum> mostRecentComic){
+    document.getElementById("NextButton").disabled = true;
+    console.log("~~~~~~~~~~~~~~~~ Max level reached ! ! ! ~~~~~~~~~~~~~~~");
+  }
+  else{
+    comicApp.currentNumber++;
+    console.log("ComicApp MAX: ", mostRecentComic, " ComicNum : ",comicApp.comicNum);
+    comicApp.changeComic();
+  }
+
+  
 
 }
 //The previous button handler 
 const handlePrevious = function () {
   //steps to run when event is "heard"
   //change the currentNumber value to be one lower than the previous call
-
-
+  
+  if (comicApp.comicNum >= mostRecentComic){
+    document.getElementById("NextButton").disabled = false;
+    console.log("~~~~~~~~~~~~~~~~ Descending from max level ~~~~~~~~~~~~~~~");
+  }
+  
   comicApp.comicNum = comicApp.currentNumber -1;
   comicApp.currentNumber--;
   console.log("ComicApp Current number DOWN: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
@@ -160,13 +183,13 @@ function App() {
     <div className="App">
       <h1>Comic Viewer</h1>
       <h2>XKCD : </h2>
+      <textarea disabled></textarea>
       <main></main>
 
       {/* Area for the comic number to appear */}
       <section>
-        <button onClick={handlePrevious}>Previous</button>
-        <textarea disabled></textarea>
-        <button onClick={handleNext} >Next</button>
+        <button id ="PreviousButton" onClick={handlePrevious}>Previous</button>
+        <button id ="NextButton" onClick={handleNext} >Next</button>
       </section>
       <footer>
         <a href="https://xkcd.com/license.html">Copyright Info </a>
