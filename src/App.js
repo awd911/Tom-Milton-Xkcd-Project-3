@@ -139,6 +139,7 @@ comicApp.displayDefaultComic = (data) => {
 const handleNext = function () {
   //steps to run when event is "heard"
   comicApp.comicNum = comicApp.currentNumber + 1;
+  document.getElementById("PreviousButton").disabled = false;
 
   if (comicApp.comicNum> mostRecentComic){
     document.getElementById("NextButton").disabled = true;
@@ -162,9 +163,48 @@ const handlePrevious = function () {
     document.getElementById("NextButton").disabled = false;
     console.log("~~~~~~~~~~~~~~~~ Descending from max level ~~~~~~~~~~~~~~~");
   }
+
+  //Makes sure the comic cant go below 1
+  if (comicApp.comicNum == 1){
+    document.getElementById("PreviousButton").disabled = true;
+  }
+  else{
+    comicApp.comicNum = comicApp.currentNumber -1;
+    comicApp.currentNumber--;
+    console.log("ComicApp Current number DOWN: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
+    comicApp.changeComic();
+
+  }
+
+ 
+}
+//Sends the user to the End of the API
+const handleLast = function () {
+  //steps to run when event is "heard"
+  //change the currentNumber value to be one
+  comicApp.currentNumber = mostRecentComic;
+  comicApp.comicNum = comicApp.currentNumber;
   
-  comicApp.comicNum = comicApp.currentNumber -1;
-  comicApp.currentNumber--;
+
+  document.getElementById("PreviousButton").disabled = false;
+  console.log("ComicApp Current number DOWN: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
+  comicApp.changeComic();
+
+ 
+}
+
+//Sends the user to the beginning of the API
+const handleFirst = function () {
+  //steps to run when event is "heard"
+  //change the currentNumber value to be one
+  comicApp.currentNumber = 1;
+  comicApp.comicNum = comicApp.currentNumber;
+  
+  if (comicApp.comicNum == 1){
+    document.getElementById("PreviousButton").disabled = true;
+    document.getElementById("NextButton").disabled = false;
+  }
+  
   console.log("ComicApp Current number DOWN: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
   comicApp.changeComic();
 
@@ -188,8 +228,10 @@ function App() {
 
       {/* Area for the comic number to appear */}
       <section>
+        <button id = "FirstButton" onClick={handleFirst}>First</button>
         <button id ="PreviousButton" onClick={handlePrevious}>Previous</button>
         <button id ="NextButton" onClick={handleNext} >Next</button>
+        <button id ="LastButton" onClick={handleLast} >Last</button>
       </section>
       <footer>
         <a href="https://xkcd.com/license.html">Copyright Info </a>

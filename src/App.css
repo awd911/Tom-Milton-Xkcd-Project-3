@@ -29,11 +29,12 @@
 }
 
 textarea {
-width : 100px;
-height : 30px;
-margin:auto;
-resize: none;
-border: 2px dashed tan;
+  width : 100px;
+  height : 30px;
+  margin:auto;
+  resize: none;
+  border: 2px dashed tan;
+  text-align: center;
 }
 
 @keyframes App-logo-spin {
