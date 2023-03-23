@@ -165,7 +165,7 @@ const handlePrevious = function () {
   }
 
   //Makes sure the comic cant go below 1
-  if (comicApp.comicNum == 1){
+  if (comicApp.comicNum === 1){
     document.getElementById("PreviousButton").disabled = true;
   }
   else{
@@ -200,7 +200,7 @@ const handleFirst = function () {
   comicApp.currentNumber = 1;
   comicApp.comicNum = comicApp.currentNumber;
   
-  if (comicApp.comicNum == 1){
+  if (comicApp.comicNum === 1){
     document.getElementById("PreviousButton").disabled = true;
     document.getElementById("NextButton").disabled = false;
   }
