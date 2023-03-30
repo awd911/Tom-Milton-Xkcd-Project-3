@@ -185,7 +185,7 @@ const handleLast = function () {
   comicApp.currentNumber = mostRecentComic;
   comicApp.comicNum = comicApp.currentNumber;
   
-
+  document.getElementById("NextButton").disabled = true;
   document.getElementById("PreviousButton").disabled = false;
   console.log("ComicApp Current number DOWN: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
   comicApp.changeComic();
@@ -210,6 +210,29 @@ const handleFirst = function () {
 
  
 }
+
+//Sends the user to a random comic in the API
+const handleRandom = function () {
+  //steps to run when event is "heard"
+  //change the currentNumber value to be one
+  comicApp.currentNumber = Math.floor(Math.random() * (mostRecentComic - 1 + 1) + 1);
+  comicApp.comicNum = comicApp.currentNumber;
+  
+
+  if (comicApp.currentNumber === mostRecentComic){
+    document.getElementById("PreviousButton").disabled = false;
+    document.getElementById("NextButton").disabled = true;
+  }
+  if (comicApp.currentNumber === 1){
+    document.getElementById("PreviousButton").disabled = true;
+    document.getElementById("NextButton").disabled = false;
+  }
+  
+  console.log("ComicApp Current number RANDO: ", comicApp.currentNumber, " ComicNum : ",comicApp.comicNum);
+  comicApp.changeComic();
+
+ 
+}
 // initialize the comicApp
 
 comicApp.init = () => {
@@ -230,6 +253,7 @@ function App() {
       <section>
         <button id = "FirstButton" onClick={handleFirst}>First</button>
         <button id ="PreviousButton" onClick={handlePrevious}>Previous</button>
+        <button id ="RandomButton" onClick={handleRandom}>Random</button>
         <button id ="NextButton" onClick={handleNext} >Next</button>
         <button id ="LastButton" onClick={handleLast} >Last</button>
       </section>
