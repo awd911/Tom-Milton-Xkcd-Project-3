@@ -89,6 +89,7 @@ comicApp.displayDefaultComic = (data) => {
   mainEmpty.innerHTML ="";
   
   const mainEl = document.querySelector('main');
+  const numEl = document.createElement('div');
 
   const currImg = document.createElement('img');
   currImg.src = currComic;
@@ -101,7 +102,6 @@ comicApp.displayDefaultComic = (data) => {
   let currTextArea = document.querySelector("textarea");
   if(currTextArea){
     currTextArea.innerText = comicNum;
-    mainEl.appendChild(currTextArea);
   }
   else{
     let newTextArea = document.createElement("textarea");
@@ -111,25 +111,13 @@ comicApp.displayDefaultComic = (data) => {
 
     
     //currTextArea.innerHTML = ;
-    mainEl.appendChild(newTextArea)
+    numEl.appendChild(newTextArea)
     document.getElementById("currentIssue").disabled = true;
   
     console.log("Nope! Text area does not exist!");
   }
 
-
-  //console.log("CurrNum: ",comicApp.comicNum, " > ",mostRecentComic);
-
-  // if(comicApp.comicNum > mostRecentComic){
-  //   document.getElementById("NextButton").disabled = true;
-  //   
-  // }
-  // else{
-  //   document.getElementById("NextButton").disabled = false;
-  // }
-
-
-
+  mainEl.appendChild(numEl);
   mainEl.appendChild(currImg);
 }
 
